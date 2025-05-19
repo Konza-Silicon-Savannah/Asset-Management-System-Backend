@@ -11,7 +11,7 @@ class User(models.Model):
     phone = models.CharField(max_length=15, null=True, blank=True)
     location = models.CharField(max_length=255, null=True, blank=True)
     company = models.CharField(max_length=100, null=True, blank=True)
-    employee_number = models.CharField(max_length=30, unique=True)
+    employeeNo = models.CharField(max_length=30, unique=True)
     website = models.CharField(max_length=255, null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=255, null=True, blank=True)
