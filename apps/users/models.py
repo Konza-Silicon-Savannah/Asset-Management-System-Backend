@@ -11,7 +11,7 @@ class User(models.Model):
     phone = models.CharField(max_length=15, null=True, blank=True)
     location = models.CharField(max_length=255, null=True, blank=True)
     company = models.CharField(max_length=100, null=True, blank=True)
-    employee_number = models.CharField(max_length=30, unique=True)
+    employeeNo = models.CharField(max_length=30, unique=True)
     website = models.CharField(max_length=255, null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=255, null=True, blank=True)
@@ -20,6 +20,8 @@ class User(models.Model):
     is_active = models.BooleanField(default=True)
     bio = models.TextField()
     password = models.CharField(max_length=255, null=True)
+    is_admin = models.BooleanField(default=False) # sudo user but doesnt have all the privileges in the system
+    is_superuser = models.BooleanField(default=False) # super admin user with all sudo privileges
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
