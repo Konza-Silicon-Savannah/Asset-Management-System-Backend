@@ -42,6 +42,8 @@ def sign_in(request):
     )
     return Response({
         "token": token,
+        "is_admin": user.is_admin,
+        "is_superuser": user.is_superuser
     }, status=200)
 
 class UserViewSet(ModelViewSet):

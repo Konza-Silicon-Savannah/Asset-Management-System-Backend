@@ -20,6 +20,8 @@ class User(models.Model):
     is_active = models.BooleanField(default=True)
     bio = models.TextField()
     password = models.CharField(max_length=255, null=True)
+    is_admin = models.BooleanField(default=False) # sudo user but doesnt have all the privileges in the system
+    is_superuser = models.BooleanField(default=False) # super admin user with all sudo privileges
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
