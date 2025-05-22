@@ -35,4 +35,4 @@ class User(AbstractBaseUser):
         verbose_name_plural = "users"
 
     def __str__(self):
-        return self.id
+        return self.i
