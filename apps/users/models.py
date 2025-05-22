@@ -1,8 +1,9 @@
 from django.db import models
 from uuid import uuid4
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 # Create your models here.
-class User(models.Model):
+class User(AbstractBaseUser):
     id = models.UUIDField(default=uuid4, editable=False, primary_key=True)
     name = models.CharField(max_length=255)
     username = models.CharField(max_length=255, unique=True)
@@ -24,6 +25,9 @@ class User(models.Model):
     is_superuser = models.BooleanField(default=False) # super admin user with all sudo privileges
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['name', 'username', 'department', 'employeeNo']
 
     class Meta:
         db_table = "user"
