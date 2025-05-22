@@ -38,7 +38,8 @@ INSTALLED_APPS = [
 
     # Custom apps
     'apps.users',
-    'apps.assets'
+    'apps.assets',
+     'apps.requests',
 ]
 
 MIDDLEWARE = [
