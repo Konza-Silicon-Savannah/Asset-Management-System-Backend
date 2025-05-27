@@ -15,6 +15,7 @@ class Asset(models.Model):
     type = models.CharField(max_length=255,null=True, blank=True)
     location = models.CharField(max_length=255, default="Unknown")
     status = models.CharField(max_length=255, default="Active")
+    description = models.TextField(null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True) #indicates when this particular asset was added to the system.
 

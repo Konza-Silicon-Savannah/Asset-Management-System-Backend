@@ -10,6 +10,7 @@ class Request(models.Model):
     requested_asset = models.ForeignKey(Asset, on_delete=models.PROTECT)
     requested_user=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(max_length=255, default="Good Condition")
+    description = models.TextField(null=True, blank=True)
     action_choices = [
         ('pending', 'Pending'),
         ('approved', 'Approved'),
