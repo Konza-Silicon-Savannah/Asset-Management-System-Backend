@@ -10,6 +10,12 @@ class Request(models.Model):
     requested_asset = models.ForeignKey(Asset, on_delete=models.PROTECT)
     requested_user=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(max_length=255, default="Good Condition")
+    action_choices = [
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+    action = models.CharField(max_length=10, choices=action_choices, default='pending')
 
     class Meta:
         db_table = "request"
