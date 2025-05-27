@@ -1,12 +1,15 @@
 from django.db import models
+from apps.assets.models import Asset
+from apps.users.models import User
+from uuid import uuid4
 
 # Create your models here.
 class Request(models.Model):
-    requested_date= models.DateField(default="2025-01-01")
-    requested_asset = models.CharField(max_length=255,null=True)
-    requested_user=models.CharField(max_length=255, null=False)
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    requested_date= models.DateTimeField(auto_now_add=True)
+    requested_asset = models.ForeignKey(Asset, on_delete=models.PROTECT)
+    requested_user=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(max_length=255, default="Good Condition")
-
 
     class Meta:
         db_table = "request"

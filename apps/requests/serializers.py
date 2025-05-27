@@ -5,6 +5,7 @@ class RequestSerializer(ModelSerializer):
     class Meta:
         model = Request
         fields = "__all__"
+        depth = 1
 
 
 
