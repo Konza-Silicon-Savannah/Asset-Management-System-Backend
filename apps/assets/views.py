@@ -16,5 +16,5 @@ from ..utils.token import JWTAuthentication
 class AssetViewSet(ModelViewSet):
     queryset = Asset.objects.all()
     serializer_class = AssetSerializer
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated]
