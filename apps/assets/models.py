@@ -14,8 +14,15 @@ class Asset(models.Model):
     department = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(max_length=255,null=True, blank=True)
     location = models.CharField(max_length=255, default="Unknown")
-    status = models.CharField(max_length=255, default="Active")
     description = models.TextField(null=True, blank=True)
+    status_choices = [
+        ('deployed','Deployed'),
+        ('pending', 'Pending'),
+        ('in-progress', 'In-progress'),
+    ]
+
+    status = models.CharField(max_length=255, choices=status_choices, default="Pending")
+
 
     created_at = models.DateTimeField(auto_now_add=True) #indicates when this particular asset was added to the system.
 
