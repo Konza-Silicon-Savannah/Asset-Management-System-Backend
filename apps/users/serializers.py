@@ -20,7 +20,6 @@ class UserSerializer(ModelSerializer):
 
         user = super().create(validated_data)
 
-        # Prepare email content
         subject = "Your Account Credentials"
         message = (
             f"Hello {user.username},\n\n"
@@ -31,24 +30,16 @@ class UserSerializer(ModelSerializer):
             f"Password: {plain_password}\n\n"
             "Please change your password after logging in."
         )
-        recipient_list = [user.email]
 
-        # Send email
-        send_mail(
-            subject,
-            message,
-            None,  # From email (None uses DEFAULT_FROM_EMAIL)
-            recipient_list,
-            fail_silently=False,
-        )
+        try:
+            send_mail(
+                subject,
+                message,
+                None,
+                [user.email],
+                fail_silently=False,
+            )
+        except Exception as e:
+            print(e)
 
         return user
-
-
-        
-        # print(plain_password)
-
-        
-        # TODO: add functionality to email user the Login credentials(username/email, plain_password) upon account creation
-
-        # return super().create(validated_data)

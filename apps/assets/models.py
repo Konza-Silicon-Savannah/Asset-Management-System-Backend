@@ -1,17 +1,20 @@
+import uuid
+
 from django.db import models
+from uuid import uuid4
 
 class Asset(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
     name = models.CharField(max_length=255)
-    Asset_Tag = models.CharField(max_length=255)
+    asset_tag = models.CharField(max_length=255)
+    serial_no = models.CharField(max_length=255)
     model = models.CharField(max_length=255)
-    supplier_cost = models.IntegerField(default=0)
-    supplier_date = models.DateField(default="2025-01-01")
+    purchase_cost = models.IntegerField(default=0)
+    supplied_date = models.DateTimeField(auto_now_add=True)
     department = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(max_length=255,null=True, blank=True)
     location = models.CharField(max_length=255, default="Unknown")
     status = models.CharField(max_length=255, default="Active")
-
 
     created_at = models.DateTimeField(auto_now_add=True) #indicates when this particular asset was added to the system.
 
