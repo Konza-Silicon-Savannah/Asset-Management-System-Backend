@@ -9,8 +9,10 @@ class Request(models.Model):
     requested_date= models.DateTimeField(auto_now_add=True)
     requested_asset = models.ForeignKey(Asset, on_delete=models.PROTECT)
     requested_user=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    status = models.CharField(max_length=255, default="Good Condition")
+    status = models.CharField(max_length=255, default="Good")
     description = models.TextField(null=True, blank=True)
+    check_in = models.DateTimeField(null=True, blank=True)
+    check_out = models.DateTimeField(null=True, blank=True)
     action_choices = [
         ('pending', 'Pending'),
         ('approved', 'Approved'),
