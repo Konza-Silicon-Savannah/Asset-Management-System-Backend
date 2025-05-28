@@ -18,11 +18,10 @@ class Asset(models.Model):
     status_choices = [
         ('deployed','Deployed'),
         ('pending', 'Pending'),
-        ('in-progress', 'In-progress'),
+        ('undeployed', 'undeployed'),
     ]
 
     status = models.CharField(max_length=255, choices=status_choices, default="Pending")
-
 
     created_at = models.DateTimeField(auto_now_add=True) #indicates when this particular asset was added to the system.
 
