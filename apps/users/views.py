@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 from django.contrib.auth.hashers import check_password
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-from rest_framework.decorators import api_view
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated
