@@ -16,12 +16,13 @@ class Asset(models.Model):
     location = models.CharField(max_length=255, default="Unknown")
     description = models.TextField(null=True, blank=True)
     status_choices = [
-        ('deployed','Deployed'),
-        ('pending', 'Pending'),
-        ('undeployed', 'undeployed'),
+        ('new','New'),
+        ('disposal', 'Disposal'),
+        ('good', 'Good'),
+        ('damaged','Damaged'),
     ]
 
-    status = models.CharField(max_length=255, choices=status_choices, default="Pending")
+    status = models.CharField(max_length=255, choices=status_choices, default="Good")
 
     created_at = models.DateTimeField(auto_now_add=True) #indicates when this particular asset was added to the system.
 
