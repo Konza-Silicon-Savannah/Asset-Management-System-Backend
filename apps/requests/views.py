@@ -13,5 +13,5 @@ from ..utils.token import JWTAuthentication
 class RequestViewSet(ModelViewSet):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
-    # authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
