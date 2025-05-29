@@ -23,4 +23,5 @@ urlpatterns = [
     path("", include("apps.assets.urls")),
     path("", include("apps.requests.urls")),
     path("", include("apps.reports.urls")),
+    path("", include("apps.analytics.urls")),
 ]

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'apps.users',
     'apps.assets',
     'apps.requests',
-    'apps.reports'
+    'apps.reports',
+    'apps.analytics'
 ]
 
 MIDDLEWARE = [
