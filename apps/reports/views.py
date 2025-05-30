@@ -12,13 +12,6 @@ from apps.utils.token import JWTAuthentication
 
 # Create your views here.
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JWTAuthentication])
-def asset_types(request):
-    types = Asset.objects.values_list('type', flat=True).distinct()
-    return Response(sorted(set(filter(None, types))))
-
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])

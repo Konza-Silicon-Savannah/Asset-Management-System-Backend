@@ -15,8 +15,6 @@ class UserSerializer(ModelSerializer):
         alphabets = string.ascii_letters
         plain_password = ''.join(random.choices(alphabets, k=10))
         validated_data["password"] = make_password(plain_password)
-        plain_password = ''.join(random.choices(alphabets, k=10))
-        validated_data["password"] = make_password(plain_password)
 
         user = super().create(validated_data)
 
@@ -40,6 +38,12 @@ class UserSerializer(ModelSerializer):
                 fail_silently=False,
             )
         except Exception as e:
-            print(e)
+            print(plain_password)
 
         return user
+
+    def update(self, instance, validated_data):
+        if 'password' in validated_data:
+            validated_data['password'] = make_password(validated_data['password'])
+
+        return super().update(instance, validated_data)

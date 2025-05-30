@@ -30,9 +30,9 @@ class AuthUser(ListCreateAPIView):
         return []
 
     def get(self, request, *args, **kwargs):
-        return Response({
-            "data": request.user.id
-        }, status=200)
+        # obj = User.objects.get(id=request.user.id)
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data, status=200)
 
     def create(self, request, *args, **kwargs):
         data = JSONParser().parse(request)
