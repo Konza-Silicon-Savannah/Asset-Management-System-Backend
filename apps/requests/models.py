@@ -7,10 +7,10 @@ from uuid import uuid4
 class Request(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
     requested_date= models.DateTimeField(auto_now_add=True)
-    requested_asset = models.ForeignKey(Asset, on_delete=models.PROTECT)
-    requested_user=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    status = models.CharField(max_length=255, default="Good")
+    requested_asset = models.ForeignKey(Asset, on_delete=models.SET_NULL, null=True, blank=True)
+    requested_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+    reason = models.TextField()
     check_in = models.DateTimeField(null=True, blank=True)
     check_out = models.DateTimeField(null=True, blank=True)
     action_choices = [

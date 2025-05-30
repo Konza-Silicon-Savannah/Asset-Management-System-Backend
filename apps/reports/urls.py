@@ -1,7 +1,6 @@
 from django.urls import include, path
-from .views import reports, asset_types
+from .views import reports
 
 urlpatterns = [
     path("reports", reports),
-    path("asset-types", asset_types)
 ]

@@ -19,7 +19,7 @@ class User(AbstractBaseUser):
     state = models.CharField(max_length=255, null=True, blank=True)
     country = models.CharField(max_length=255, null=True, blank=True)
     is_active = models.BooleanField(default=True)
-    bio = models.TextField()
+    bio = models.TextField(null=True, blank=True)
     password = models.CharField(max_length=255, null=True)
     is_admin = models.BooleanField(default=False) # sudo user but doesnt have all the privileges in the system
     is_superuser = models.BooleanField(default=False) # super admin user with all sudo privileges
@@ -35,4 +35,4 @@ class User(AbstractBaseUser):
         verbose_name_plural = "users"
 
     def __str__(self):
-        return self.i
+        return self.email
