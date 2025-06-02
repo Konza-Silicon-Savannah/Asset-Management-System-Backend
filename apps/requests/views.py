@@ -7,7 +7,7 @@ from .serializers import RequestSerializer, ReadRequestSerializer
 from ..utils.token import JWTAuthentication
 
 
-# Create your views here.
+# Create your view here.
 
 
 class RequestViewSet(ModelViewSet):
