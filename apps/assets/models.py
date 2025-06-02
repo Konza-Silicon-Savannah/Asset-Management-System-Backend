@@ -1,31 +1,23 @@
-import uuid
-
 from django.db import models
-from uuid import uuid4
 
 class Asset(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    # Django auto-generate the ID
+    # id = models.AutoField(primary_key=True) 
+    
     name = models.CharField(max_length=255)
-    asset_tag = models.CharField(max_length=255)
-    serial_no = models.CharField(max_length=255)
-    model = models.CharField(max_length=255)
-    purchase_cost = models.IntegerField(default=0)
-    supplied_date = models.DateTimeField(auto_now_add=True)
+    asset_tag = models.CharField(max_length=255, blank=True)  
+    serial_number = models.CharField(max_length=255)  
+    model = models.CharField(max_length=255, blank=True)
+    purchase_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)  
+    purchase_date = models.DateField(null=True, blank=True)  
+    supplier = models.CharField(max_length=255, blank=True)  
+    description = models.TextField(blank=True)  
     department = models.CharField(max_length=255, null=True, blank=True)
-    type = models.CharField(max_length=255,null=True, blank=True)
+    asset_type = models.CharField(max_length=255, null=True, blank=True)  
     location = models.CharField(max_length=255, default="Unknown")
-    description = models.TextField(null=True, blank=True)
-    status_choices = [
-        ('new','New'),
-        ('disposal', 'Disposal'),
-        ('good', 'Good'),
-        ('damaged','Damaged'),
-    ]
-
-    status = models.CharField(max_length=255, choices=status_choices, default="Good")
-
-    created_at = models.DateTimeField(auto_now_add=True) #indicate when this particular asset was added to the system.
-
+    status = models.CharField(max_length=255, default="Active")
+    
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = "asset"
@@ -34,8 +26,3 @@ class Asset(models.Model):
 
     def __str__(self):
         return self.name
-    
-
-
-
-
