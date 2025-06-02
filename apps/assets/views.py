@@ -14,7 +14,7 @@ from .serializers import AssetSerializer
 from ..utils.token import JWTAuthentication
 
 
-# Create your views here.
+# Create your view here.
 
 class AssetViewSet(ModelViewSet):
     queryset = Asset.objects.all()
