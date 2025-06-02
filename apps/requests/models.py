@@ -3,7 +3,7 @@ from apps.assets.models import Asset
 from apps.users.models import User
 from uuid import uuid4
 
-# Create your models here.
+# Create your model here.
 class Request(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
     requested_date= models.DateTimeField(auto_now_add=True)
