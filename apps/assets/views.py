@@ -12,7 +12,7 @@ from rest_framework.viewsets import ModelViewSet
 from .models import Asset
 from .serializers import AssetSerializer
 from ..utils.token import JWTAuthentication
-
+from openpyxl import Workbook, load_workbook
 
 # Create your views here.
 @api_view(['GET'])
@@ -67,20 +67,33 @@ def departments(request):
 @api_view(['GET'])
 def status_list(request):
     status_options = [
-        {'id': 1, 'name': 'New'},
-        {'id': 2, 'name': 'Disposal'},
-        {'id': 3, 'name': 'Good'},
-        {'id': 4, 'name': 'Damaged'},
+        {'id': 1, 'name': 'new'},
+        {'id': 2, 'name': 'disposal'},
+        {'id': 3, 'name': 'good'},
+        {'id': 4, 'name': 'damaged'},
         
     ]
     return Response(status_options)
 
 
 class AssetViewSet(ModelViewSet):
-    queryset = Asset.objects.all()
+    queryset = Asset.objects.all().order_by("-created_at")
     serializer_class = AssetSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        assets = self.queryset
+
+        status = self.request.GET.get("status")
+        if status and status != "all":
+            assets = self.queryset.filter(status=status)
+
+        search = self.request.GET.get("search")
+        if search:
+            assets = self.queryset.filter(Q(name__icontains=search) | Q(model__icontains=search) | Q(type__icontains=search))
+
+        return assets
 
     @action(detail=False, methods=['get'], url_path='available')
     def available_assets(self, request):
@@ -101,3 +114,46 @@ class AssetViewSet(ModelViewSet):
     def available_asset_types(self, request):
         types = Asset.objects.values_list('type', flat=True).distinct()
         return Response(sorted(set(filter(None, types))), status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['post'], url_path='excel')
+    def import_data(self, request):
+        file = request.FILES.get('file')
+        staff = request.data.get('staff')  # Optional: if you want to track who uploaded
+
+        if not file:
+            return Response({"error": "No file uploaded."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            wb = load_workbook(file)
+            ws = wb.active
+            count = 0
+
+            for row in ws.iter_rows(min_row=2, values_only=True):  # Assuming row 1 is header
+                if row is None or len(row) != 9:
+                    continue  # Skip malformed rows
+
+                name, asset_tag, serial_no, model, purchase_cost, department, type, location, description = row
+                exists = Asset.objects.filter(serial_no=serial_no, asset_tag=asset_tag).exists()
+
+                if not exists:
+                    Asset.objects.create(
+                        name=name,
+                        asset_tag=asset_tag,
+                        serial_no=serial_no,
+                        model=model,
+                        purchase_cost=purchase_cost,
+                        department=department,
+                        type=type,
+                        location=location,
+                        description=description
+                    )
+                    count += 1
+
+            if count == 0:
+                return Response({"message": "All assets already exist in the database."}, status=status.HTTP_200_OK)
+
+            return Response({"message": f"Successfully imported {count} asset(s)."}, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            print("Error during import:", e)
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

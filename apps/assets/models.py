@@ -22,7 +22,7 @@ class Asset(models.Model):
         ('damaged', 'Damaged'),
     ]
 
-    status = models.CharField(max_length=255, choices=status_choices, default="Good")
+    status = models.CharField(max_length=255, choices=status_choices, default="good")
 
     created_at = models.DateTimeField(
         auto_now_add=True)  # indicates when this particular asset was added to the system.
