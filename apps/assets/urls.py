@@ -8,7 +8,7 @@ router.register("assets", AssetViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
-     path('assets/', views.AssetViewSet.as_view({'get': 'list', 'post': 'create'})),
+    # path('assets/', views.AssetViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('asset-types/', views.asset_types, name='asset_types'),
     path('locations/', views.locations, name='locations'),
     path('departments/', views.departments, name='departments'),
