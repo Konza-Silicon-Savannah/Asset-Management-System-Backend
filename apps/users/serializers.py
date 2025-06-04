@@ -11,8 +11,6 @@ class UserSerializer(ModelSerializer):
         model = User
         fields = "__all__"
 
-
-
     def create(self, validated_data):
         request = self.context.get("request")
         alphabets = string.ascii_letters
@@ -41,6 +39,7 @@ class UserSerializer(ModelSerializer):
                 fail_silently=False,
             )
         except Exception as e:
+            print(f"{e}")
             print(plain_password)
 
         return user

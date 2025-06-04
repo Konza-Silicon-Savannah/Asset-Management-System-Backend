@@ -1,16 +1,18 @@
-from datetime import timedelta
-from django.utils import timezone
-from django.db.models import Q
+import os
+
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.db.models import Q
+from datetime import timedelta
+from django.utils import timezone
+
 from apps.assets.models import Asset
 from apps.reports.serializers import AssetReportSerializer
 from apps.requests.models import Request
 from apps.utils.token import JWTAuthentication
 
-
-# Create your views here.
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
@@ -35,12 +37,18 @@ def reports(request):
     if search:
         assets = assets.filter(Q(name__icontains=search) | Q(model__icontains=search))
 
+    # Apply pagination
+    paginator = PageNumberPagination()
+    paginator.page_size = int(os.getenv("PAGE_SIZE", 10))  # fallback to 10 if PAGE_SIZE not set
+    paginated_assets = paginator.paginate_queryset(assets, request)
+
+    # Add latest request info
     asset_map = {}
-    for asset in assets:
+    for asset in paginated_assets:
         latest = Request.objects.filter(requested_asset=asset).order_by('-requested_date').select_related(
             'requested_user').first()
         asset.latest_request = latest
         asset_map[asset.id] = asset
 
-    serializer = AssetReportSerializer(assets, many=True)
-    return Response(serializer.data)
+    serializer = AssetReportSerializer(paginated_assets, many=True)
+    return paginator.get_paginated_response(serializer.data)
