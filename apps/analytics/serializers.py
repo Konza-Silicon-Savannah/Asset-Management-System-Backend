@@ -10,5 +10,5 @@ class MonthlyGraphsSerializer(serializers.Serializer):
     month = serializers.CharField()
     approved_assets = serializers.IntegerField()
     pending_requests = serializers.IntegerField()
-    total_assets = serializers.IntegerField()
+    disposal = serializers.IntegerField()
 

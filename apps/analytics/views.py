@@ -35,7 +35,7 @@ def graph(request):
                 "month": month_str,
                 "approved_assets": 0,
                 "pending_requests": 0,
-                "total_assets": 0,
+                "disposal": 0,
             })
         else:  # June to December: actual data
             start_date = datetime(current_year, index, 1)
@@ -56,7 +56,7 @@ def graph(request):
                 requested_date__lt=end_date
             ).count()
 
-            total_assets = Asset.objects.filter(
+            disposal = Asset.objects.filter(
                 created_at__gte=start_date,
                 created_at__lt=end_date
             ).count()
@@ -65,7 +65,7 @@ def graph(request):
                 "month": month_str,
                 "approved_assets": approved_assets,
                 "pending_requests": pending_requests,
-                "total_assets": total_assets,
+                "disposal": disposal,
             })
 
     serializer = MonthlyGraphsSerializer(data, many=True)
