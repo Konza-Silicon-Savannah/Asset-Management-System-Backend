@@ -11,12 +11,14 @@ from ..utils.token import JWTAuthentication
 class RequestViewSet(ModelViewSet):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
-    # authentication_classes = [JWTAuthentication]  # Commented out for testing
+    authentication_classes = [JWTAuthentication]
     permission_classes = [AllowAny]  # Allow any user for testing
 
     def get_queryset(self):
-        # Return all requests when no authentication (for testing only)
-        return Request.objects.all()
+        user = self.request.user
+        if user.is_superuser or user.is_admin:
+            return Request.objects.all().order_by("-requested_date")
+        return Request.objects.filter(requested_user=user).order_by("-requested_date")
 
     def get_serializer_class(self):
         if self.request.method == "GET":
